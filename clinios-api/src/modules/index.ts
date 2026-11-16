@@ -1,0 +1,62 @@
+import { Router } from 'express';
+import { authRoutes } from './auth/auth.routes';
+import { patientAuthRoutes } from './auth/patient.routes';
+import { patientRoutes } from './patients/patient.routes';
+import { patientPatientRoutes } from './patients/patient-patient.routes';
+import { appointmentRoutes } from './appointments/appointment.routes';
+import { patientAppointmentRoutes } from './appointments/patient-appointments.routes';
+import { queueRoutes } from './queues/queue.routes';
+import { emergencyRoutes } from './emergencies/emergency.routes';
+import { nurseAssessmentRoutes } from './nurse-assessments/nurse-assessment.routes';
+import { vitalsRoutes } from './vitals/vitals.routes';
+import { consultationRoutes } from './consultations/consultation.routes';
+import { prescriptionRoutes } from './prescriptions/prescription.routes';
+import { patientPrescriptionRoutes } from './prescriptions/patient-prescriptions.routes';
+import { billingRoutes } from './billing/billing.routes';
+import { documentRoutes } from './documents/document.routes';
+import { notificationRoutes } from './notifications/notification.routes';
+import { dashboardRoutes } from './dashboards/dashboard.routes';
+import { analyticsRoutes } from './analytics/analytics.routes';
+import { auditLogRoutes } from './audit-logs/audit-log.routes';
+import { settingsRoutes } from './settings/settings.routes';
+import { clinicRoutes } from './clinics/clinic.routes';
+import { branchRoutes } from './branches/branch.routes';
+import { staffRoutes } from './staff/staff.routes';
+import { roleRoutes } from './roles/role.routes';
+import { scheduleRoutes } from './schedules/schedule.routes';
+
+/** Central API v1 route registry (spec §38). Modules never self-mount. */
+export const apiV1 = Router();
+
+apiV1.use('/auth', authRoutes);
+
+// Patient Portal Routes (mounted at /api/v1/patient)
+apiV1.use('/patient/auth', patientAuthRoutes);
+apiV1.use('/patient', patientPatientRoutes);
+apiV1.use('/patient/appointments', patientAppointmentRoutes);
+apiV1.use('/patient/prescriptions', patientPrescriptionRoutes);
+
+// Staff/Clinic Routes
+apiV1.use('/appointments/patient', patientAppointmentRoutes);
+apiV1.use('/appointments', appointmentRoutes);
+apiV1.use('/patients/patient', patientPatientRoutes);
+apiV1.use('/patients', patientRoutes);
+apiV1.use('/queues', queueRoutes);
+apiV1.use('/emergencies', emergencyRoutes);
+apiV1.use('/nurse-assessments', nurseAssessmentRoutes);
+apiV1.use('/vitals', vitalsRoutes);
+apiV1.use('/consultations', consultationRoutes);
+apiV1.use('/prescriptions/patient', patientPrescriptionRoutes);
+apiV1.use('/prescriptions', prescriptionRoutes);
+apiV1.use('/billing', billingRoutes);
+apiV1.use('/documents', documentRoutes);
+apiV1.use('/notifications', notificationRoutes);
+apiV1.use('/dashboard', dashboardRoutes);
+apiV1.use('/analytics', analyticsRoutes);
+apiV1.use('/audit-logs', auditLogRoutes);
+apiV1.use('/settings', settingsRoutes);
+apiV1.use('/clinics', clinicRoutes);
+apiV1.use('/branches', branchRoutes);
+apiV1.use('/staff', staffRoutes);
+apiV1.use('/roles', roleRoutes);
+apiV1.use('/schedules', scheduleRoutes);

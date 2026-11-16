@@ -1,0 +1,98 @@
+/* @import must precede all other statements — tokens define every CSS variable
+   the Tailwind theme reads (colors, shadows, radii). Keep this line first. */
+@import './tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-text-primary antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+    text-rendering: optimizeLegibility;
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--focus-ring));
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: rgb(var(--primary) / 0.2);
+  }
+
+  /* Thin, token-aware scrollbars for a calmer, more polished chrome */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--border)) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: rgb(var(--border));
+    border-radius: 8px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--text-secondary) / 0.5);
+  }
+}
+
+@layer components {
+  /* FullCalendar chrome follows the design tokens (it ships light-only defaults).
+     Event colors are set per-event in CalendarView via rgb(var(--x)) strings. */
+  .fc {
+    --fc-border-color: rgb(var(--border));
+    --fc-page-bg-color: rgb(var(--surface));
+    --fc-neutral-bg-color: rgb(var(--surface-muted));
+    --fc-neutral-text-color: rgb(var(--text-secondary));
+    --fc-today-bg-color: rgb(var(--primary) / 0.04);
+    --fc-highlight-color: rgb(var(--primary) / 0.08);
+    --fc-now-indicator-color: rgb(var(--danger));
+    --fc-non-business-color: rgb(var(--surface-muted) / 0.5);
+    --fc-list-event-hover-bg-color: rgb(var(--surface-hover));
+    --fc-more-link-bg-color: rgb(var(--surface-muted));
+    --fc-more-link-text-color: rgb(var(--text-primary));
+    --fc-button-bg-color: rgb(var(--surface));
+    --fc-button-border-color: rgb(var(--border));
+    --fc-button-text-color: rgb(var(--text-primary));
+    --fc-button-hover-bg-color: rgb(var(--surface-muted));
+    --fc-button-hover-border-color: rgb(var(--border-strong));
+    --fc-button-active-bg-color: rgb(var(--primary));
+    --fc-button-active-border-color: rgb(var(--primary));
+    color: rgb(var(--text-primary));
+  }
+  .fc .fc-button-primary:not(:disabled).fc-button-active,
+  .fc .fc-button-primary:not(:disabled):active {
+    color: rgb(var(--primary-foreground));
+  }
+  .fc .fc-col-header-cell-cushion,
+  .fc .fc-daygrid-day-number {
+    color: rgb(var(--text-secondary));
+  }
+  .fc .fc-toolbar-title {
+    color: rgb(var(--text-primary));
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

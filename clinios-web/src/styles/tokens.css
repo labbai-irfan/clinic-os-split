@@ -1,0 +1,240 @@
+/* ============================================================================
+   ClinicOS THEME ENGINE
+   ============================================================================
+   Three layers:
+
+   1. RAW PALETTE  (--shade-*)     — the monochrome ladder. Never used by
+                                     components directly; only referenced here.
+   2. SEMANTIC TOKENS (--surface…) — what every component consumes, via the
+                                     Tailwind mapping in tailwind.config.ts.
+   3. THEME BLOCKS                 — light (:root), dark ([data-theme='dark']
+                                     + system fallback via media query).
+
+   All values are "R G B" triplets (no commas) so Tailwind can layer opacity:
+   rgb(var(--x) / <alpha-value>).
+
+   HOW TO REBRAND LATER: only edit the semantic blocks below (or add a new
+   [data-brand='…'] block overriding them). Components never hardcode colors,
+   so swapping e.g. --primary from black to a brand blue re-skins the app.
+   Status colors (success/warning/danger/info) stay chromatic even in the
+   monochrome theme — a clinic app must keep emergency/danger unmistakable.
+   ========================================================================== */
+
+/* ---- 1. RAW PALETTE — monochrome ladder (white → black) ------------------ */
+:root {
+  --shade-0: 255 255 255;
+  --shade-50: 250 250 250;
+  --shade-100: 245 245 245;
+  --shade-150: 240 240 240;
+  --shade-200: 229 229 229;
+  --shade-300: 212 212 212;
+  --shade-400: 163 163 163;
+  --shade-500: 115 115 115;
+  --shade-600: 82 82 82;
+  --shade-700: 64 64 64;
+  --shade-800: 38 38 38;
+  --shade-850: 26 26 26;
+  --shade-900: 15 15 15;
+  --shade-950: 10 10 10;
+  --shade-1000: 0 0 0;
+}
+
+/* ---- 2+3. SEMANTIC TOKENS — LIGHT THEME (default) ------------------------ */
+:root {
+  /* Canvas & surfaces */
+  --background: var(--shade-50);
+  --surface: var(--shade-0);
+  --surface-muted: var(--shade-100);
+  --surface-elevated: var(--shade-0);
+  --surface-hover: var(--shade-100);
+
+  /* Lines — this theme is line-based; borders carry the hierarchy */
+  --border: var(--shade-200);
+  --border-strong: var(--shade-300);
+  --border-subtle: var(--shade-150);
+
+  /* Ink */
+  --text-primary: var(--shade-900);
+  --text-secondary: var(--shade-600);
+  --text-tertiary: var(--shade-400);
+  --text-disabled: var(--shade-300);
+  --text-inverse: var(--shade-0);
+
+  /* Brand — monochrome for now; swap these to rebrand */
+  --primary: var(--shade-900);
+  --primary-hover: var(--shade-1000);
+  --primary-active: var(--shade-800);
+  --primary-foreground: var(--shade-0);
+  --primary-muted: var(--shade-100);
+
+  --secondary: var(--shade-700);
+  --secondary-hover: var(--shade-800);
+  --secondary-foreground: var(--shade-0);
+
+  --accent: var(--shade-900);
+  --accent-foreground: var(--shade-0);
+
+  /* Status — deep, muted chroma (kept visible for clinical safety) */
+  --success: 22 101 52;
+  --success-muted: 240 253 244;
+  --success-foreground: 255 255 255;
+  --warning: 146 64 14;
+  --warning-muted: 255 251 235;
+  --warning-foreground: 255 255 255;
+  --danger: 153 27 27;
+  --danger-muted: 254 242 242;
+  --danger-foreground: 255 255 255;
+  --info: 30 64 175;
+  --info-muted: 239 246 255;
+  --info-foreground: 255 255 255;
+
+  /* Interaction chrome */
+  --focus-ring: var(--shade-900);
+  --overlay: var(--shade-1000);
+
+  /* Charts — alternating grays for adjacent-series contrast */
+  --chart-1: 15 15 15;
+  --chart-2: 115 115 115;
+  --chart-3: 178 178 178;
+  --chart-4: 64 64 64;
+  --chart-5: 145 145 145;
+  --chart-6: 212 212 212;
+
+  /* Geometry */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  /* Elevation — whisper-quiet; lines do the talking */
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-popover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* ---- SEMANTIC TOKENS — DARK THEME ---------------------------------------- */
+:root[data-theme='dark'] {
+  --background: var(--shade-950);
+  --surface: 17 17 17;
+  --surface-muted: var(--shade-850);
+  --surface-elevated: 22 22 22;
+  --surface-hover: 31 31 31;
+
+  --border: var(--shade-800);
+  --border-strong: var(--shade-700);
+  --border-subtle: 30 30 30;
+
+  --text-primary: var(--shade-100);
+  --text-secondary: var(--shade-400);
+  --text-tertiary: var(--shade-500);
+  --text-disabled: var(--shade-700);
+  --text-inverse: var(--shade-900);
+
+  --primary: var(--shade-100);
+  --primary-hover: var(--shade-0);
+  --primary-active: var(--shade-200);
+  --primary-foreground: var(--shade-900);
+  --primary-muted: 31 31 31;
+
+  --secondary: var(--shade-400);
+  --secondary-hover: var(--shade-300);
+  --secondary-foreground: var(--shade-900);
+
+  --accent: var(--shade-100);
+  --accent-foreground: var(--shade-900);
+
+  --success: 96 190 130;
+  --success-muted: 16 34 23;
+  --success-foreground: 10 10 10;
+  --warning: 217 168 74;
+  --warning-muted: 41 32 15;
+  --warning-foreground: 10 10 10;
+  --danger: 224 106 106;
+  --danger-muted: 43 20 20;
+  --danger-foreground: 10 10 10;
+  --info: 110 168 230;
+  --info-muted: 17 28 45;
+  --info-foreground: 10 10 10;
+
+  --focus-ring: var(--shade-100);
+  --overlay: var(--shade-1000);
+
+  --chart-1: 245 245 245;
+  --chart-2: 140 140 140;
+  --chart-3: 82 82 82;
+  --chart-4: 200 200 200;
+  --chart-5: 110 110 110;
+  --chart-6: 55 55 55;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.55);
+  --shadow-popover: 0 4px 12px rgba(0, 0, 0, 0.55), 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+/* System-preference fallback: same values as the dark block above. Applies
+   when the user has not made an explicit choice (no data-theme attribute). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --background: var(--shade-950);
+    --surface: 17 17 17;
+    --surface-muted: var(--shade-850);
+    --surface-elevated: 22 22 22;
+    --surface-hover: 31 31 31;
+
+    --border: var(--shade-800);
+    --border-strong: var(--shade-700);
+    --border-subtle: 30 30 30;
+
+    --text-primary: var(--shade-100);
+    --text-secondary: var(--shade-400);
+    --text-tertiary: var(--shade-500);
+    --text-disabled: var(--shade-700);
+    --text-inverse: var(--shade-900);
+
+    --primary: var(--shade-100);
+    --primary-hover: var(--shade-0);
+    --primary-active: var(--shade-200);
+    --primary-foreground: var(--shade-900);
+    --primary-muted: 31 31 31;
+
+    --secondary: var(--shade-400);
+    --secondary-hover: var(--shade-300);
+    --secondary-foreground: var(--shade-900);
+
+    --accent: var(--shade-100);
+    --accent-foreground: var(--shade-900);
+
+    --success: 96 190 130;
+    --success-muted: 16 34 23;
+    --success-foreground: 10 10 10;
+    --warning: 217 168 74;
+    --warning-muted: 41 32 15;
+    --warning-foreground: 10 10 10;
+    --danger: 224 106 106;
+    --danger-muted: 43 20 20;
+    --danger-foreground: 10 10 10;
+    --info: 110 168 230;
+    --info-muted: 17 28 45;
+    --info-foreground: 10 10 10;
+
+    --focus-ring: var(--shade-100);
+    --overlay: var(--shade-1000);
+
+    --chart-1: 245 245 245;
+    --chart-2: 140 140 140;
+    --chart-3: 82 82 82;
+    --chart-4: 200 200 200;
+    --chart-5: 110 110 110;
+    --chart-6: 55 55 55;
+
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.55);
+    --shadow-popover: 0 4px 12px rgba(0, 0, 0, 0.55), 0 12px 32px rgba(0, 0, 0, 0.6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
